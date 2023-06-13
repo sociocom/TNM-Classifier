@@ -1,9 +1,9 @@
 import torch
 import torch.nn as nn
-from transformers import BertModel, BertConfig, AutoModel, AutoConfig, T5ForConditionalGeneration
+from transformers import BertModel, BertConfig
 
 
-class BERTSingleclassBaseModel(nn.Module):
+class BERTSingleLabelModel(nn.Module):
     def __init__(self, model_name, output_dim):
         super().__init__()
         config = BertConfig.from_pretrained(model_name)
@@ -17,7 +17,7 @@ class BERTSingleclassBaseModel(nn.Module):
 
         return logit
 
-class BERTMulticlassBaseModel(nn.Module):
+class BERTMultiLabelModel(nn.Module):
     def __init__(self, model_name):
         super().__init__()
         config = BertConfig.from_pretrained(model_name)
@@ -34,47 +34,4 @@ class BERTMulticlassBaseModel(nn.Module):
         logitM = self.fcM(outputs)
 
         return logitT, logitN, logitM
-
-class DeBERTaSingleclassBaseModel(nn.Module):
-    def __init__(self, model_name, output_dim):
-        super().__init__()
-        config = AutoConfig.from_pretrained(model_name)
-        self.model = AutoModel.from_pretrained(model_name, config=config)
-        self.fc = nn.Linear(config.hidden_size, output_dim)
     
-    def forward(self, ids, mask):
-        last_hidden_state = self.model(ids, mask)['last_hidden_state']
-        outputs = torch.mean(last_hidden_state, dim=1)
-        logit = self.fc(outputs)
-
-        return logit
-    
-class DeBERTaMulticlassBaseModel(nn.Module):
-    def __init__(self, model_name):
-        super().__init__()
-        config = AutoConfig.from_pretrained(model_name)
-        self.model = AutoModel.from_pretrained(model_name, config=config)
-        self.fcT = nn.Linear(config.hidden_size, 4)
-        self.fcN = nn.Linear(config.hidden_size, 4)
-        self.fcM = nn.Linear(config.hidden_size, 2)
-    
-    def forward(self, ids, mask):
-        last_hidden_state = self.model(ids, mask)['last_hidden_state']
-        outputs = torch.mean(last_hidden_state, dim=1)
-        logitT = self.fcT(outputs)
-        logitN = self.fcN(outputs)
-        logitM = self.fcM(outputs)
-
-        return logitT, logitN, logitM
-
-"""
-class T5MulticlassBaseModel(nn.Module):
-    def __init__(self, model_name):
-        super().__init__()
-        self.model = T5ForConditionalGeneration.from_pretrained(model_name, config=config)
-
-    def forward(self, ids, mask, de_ids, de_mask):
-        last_hidden_state = self.model(ids, mask)
-
-        return logitT, logitN, logitM
-"""     
