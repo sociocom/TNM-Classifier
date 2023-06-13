@@ -2,8 +2,8 @@ import torch
 from torch.utils.data import Dataset
 
 
-class SinglelabelDataset(Dataset):
-    def __init__(self, tokenizer, texts, label, max_length=512, label2id=None, train=True):
+class SingleLabelDataset(Dataset):
+    def __init__(self, tokenizer, texts, label=None, max_length=512, label2id=None, train=True):
         self.texts = texts
         self.inputs = tokenizer(texts, max_length=max_length, padding='max_length', truncation=True)
         self.label = label
@@ -24,14 +24,16 @@ class SinglelabelDataset(Dataset):
         else:
             return {'ids': ids, 'mask': mask}
 
-class MultilabelDataset(Dataset):
+
+class MultiLabelDataset(Dataset):
     def __init__(self, tokenizer, texts, labelT=None, labelN=None, labelM=None, max_length=512, train=True):
         self.texts = texts
         self.inputs = tokenizer(texts, max_length=max_length, padding='max_length', truncation=True)
-        labelT2id = {1: 0, 2: 1, 3: 2, 4: 3}
-        self.labelT = [labelT2id[v] for v in labelT]
-        self.labelN = labelN
-        self.labelM = labelM
+        if train:
+            labelT2id = {1: 0, 2: 1, 3: 2, 4: 3}
+            self.labelT = [labelT2id[v] for v in labelT]
+            self.labelN = labelN
+            self.labelM = labelM
         self.train = train
     
     def __len__(self):
@@ -47,6 +49,5 @@ class MultilabelDataset(Dataset):
             labelM = torch.tensor(self.labelM[idx], dtype=torch.int64)
             return {'ids': ids, 'mask': mask, 'labelT': labelT, 'labelN': labelN, 'labelM': labelM}
         else:
-            return {'ids': ids, 'mask': mask}
-        
+            return {'ids': ids, 'mask': mask}   
         
