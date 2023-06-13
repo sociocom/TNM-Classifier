@@ -243,7 +243,7 @@ class MultiLabelBERTTrainer():
         return preds, self.model
     
     def inferencing(self, df, model, batch_size=32, max_length=512, label2id=None):
-        test_dataset = SingleLabelDataset(self.tokenizer, texts=df['text'].to_list(), max_length=max_length, train=False)
+        test_dataset = MultiLabelDataset(self.tokenizer, texts=df['text'].to_list(), max_length=max_length, train=False)
         test_loader = DataLoader(dataset=test_dataset, batch_size=batch_size, shuffle=True)
         predsT, predsN, predsM = np.empty(0), np.empty(0), np.empty(0)
         model.eval()
