@@ -1,0 +1,52 @@
+# TNM-Classifier
+BERTでTNM分類を行うプログラムです．
+[rye](https://rye.astral.sh/guide/installation/)でpythonのパッケージを管理しています．
+
+## コマンド一覧
+help が見れるコマンド: rye run python src/main.py --help
+入力すると以下の説明が表示されます．
+"""
+NAME
+    main.py
+
+SYNOPSIS
+    main.py <flags>
+
+FLAGS
+    -t, --type=TYPE
+        Type: str
+        Default: 'single'
+    -p, --pretrained_model=PRETRAINED_MODEL
+        Type: str
+        Default: 'cl-tohoku/bert-ba...
+    -i, --input_path=INPUT_PATH
+        Type: str
+        Default: 'data/data.csv'
+    -s, --seed=SEED
+        Type: int
+        Default: 2023
+    -f, --folds=FOLDS
+        Type: int
+        Default: 5
+    -d, --device=DEVICE
+        Type: str
+        Default: device(type='cuda', ind...
+    -b, --batch_size=BATCH_SIZE
+        Type: int
+        Default: 32
+    -l, --learning_rate=LEARNING_RATE
+        Type: float
+        Default: 2e-05
+    -n, --num_epochs=NUM_EPOCHS
+        Type: int
+        Default: 100
+    -m, --max_length=MAX_LENGTH
+        Type: int
+        Default: 512
+    -e, --early_stopping_rounds=EARLY_STOPPING_ROUNDS
+        Type: int
+        Default: 5
+    -c, --criterion=CRITERION
+        Type: Module
+        Default: CrossEntropyLoss()
+"""
