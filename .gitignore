@@ -2,5 +2,5 @@ data/*
 outputs/*
 __pycache__
 .venv
-!data/README.md
-!outputs/README.md
+!data/.gitkeep
+!outputs/.gitkeep
