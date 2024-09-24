@@ -1,11 +1,14 @@
 # TNM-Classifier
-BERTでTNM分類を行うプログラムです．
-[rye](https://rye.astral.sh/guide/installation/)でpythonのパッケージを管理しています．
+
+BERT で TNM 分類を行うプログラムです．
+[rye](https://rye.astral.sh/guide/installation/)で python のパッケージを管理しています．
 
 ## コマンド一覧
-help が見れるコマンド: rye run python src/main.py --help
+
+help が見れるコマンド: `rye run python src/main.py --help` <br>
 入力すると以下の説明が表示されます．
-"""
+
+```
 NAME
     main.py
 
@@ -49,4 +52,4 @@ FLAGS
     -c, --criterion=CRITERION
         Type: Module
         Default: CrossEntropyLoss()
-"""
+```
