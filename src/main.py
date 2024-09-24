@@ -11,34 +11,34 @@ from train import SingleLabelBERTTrainer, MultiLabelBERTTrainer
 
 
 def main(
-    model_type="single",
-    model_name="cl-tohoku/bert-base-japanese-v2",
-    train_data_path="data/data.csv",
-    seed=2023,
-    folds=5,
-    device=torch.device("cuda:1" if torch.cuda.is_available() else "cpu"),
-    batch_size=32,
-    learning_rate=2e-5,
-    epochs=100,
-    max_length=512,
-    early_stopping_rounds=5,
-    criterion=nn.CrossEntropyLoss(),
+    type: str = "single",
+    pretrained_model: str = "cl-tohoku/bert-base-japanese-v2",
+    input_path: str = "data/data.csv",
+    seed: int = 2023,
+    folds: int = 5,
+    device: str = torch.device("cuda:1" if torch.cuda.is_available() else "cpu"),
+    batch_size: int = 32,
+    learning_rate: float = 2e-5,
+    num_epochs: int = 100,
+    max_length: int = 512,
+    early_stopping_rounds: int = 5,
+    criterion: nn.Module = nn.CrossEntropyLoss(),
 ):
-    print("Model Type: ", model_type)
+    print("Model Type: ", type)
     # Read Data
     # df = load_dataset(train_data_dir)
-    df = pd.read_csv(train_data_path)
+    df = pd.read_csv(input_path)
     df["TNM"] = df["T"].astype(str) + df["N"].astype(str) + df["M"].astype(str)
     fold = StratifiedKFold(n_splits=folds, shuffle=True, random_state=seed)
     labelTNM2id = {v: i for i, v in enumerate(df["TNM"].unique())}
 
-    TOKENIZER = AutoTokenizer.from_pretrained(model_name)
+    TOKENIZER = AutoTokenizer.from_pretrained(pretrained_model)
     label_name = "TNM"
     cv = fold.split(df["text"], df["TNM"])
 
-    if model_type == "single":
+    if type == "single":
         trainer = SingleLabelBERTTrainer(
-            model_name=model_name,
+            model_name=pretrained_model,
             tokenizer=TOKENIZER,
             criterion=criterion,
             device=device,
@@ -49,7 +49,7 @@ def main(
             label_name,
             cv,
             batch_size=batch_size,
-            epochs=epochs,
+            epochs=num_epochs,
             learning_rate=learning_rate,
             max_length=max_length,
             early_stopping_rounds=early_stopping_rounds,
@@ -57,7 +57,7 @@ def main(
         )
     else:
         trainer = MultiLabelBERTTrainer(
-            model_name=model_name,
+            model_name=pretrained_model,
             tokenizer=TOKENIZER,
             criterion=criterion,
             device=device,
@@ -67,14 +67,14 @@ def main(
             df,
             cv,
             batch_size=batch_size,
-            epochs=epochs,
+            epochs=num_epochs,
             learning_rate=learning_rate,
             max_length=max_length,
             early_stopping_rounds=early_stopping_rounds,
         )
     df["TNM_pred"] = cs_predsTNM
 
-    df.to_csv(f"outputs/{model_type}_predicted.csv", index=False)
+    df.to_csv(f"outputs/{type}_predicted.csv", index=False)
     return cs_predsTNM
 
 
