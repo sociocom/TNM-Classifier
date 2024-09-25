@@ -1,7 +1,16 @@
 # TNM-Classifier
-
+## 説明
 BERT で TNM 分類を行うプログラムです．
 [rye](https://rye.astral.sh/guide/installation/)で python のパッケージを管理しています．
+
+## 使用方法
+Rye を導入した後，rye syncで python ライブラリをインストール<br>
+
+下記のコマンド一覧を参考に適切な引数を追加し，実行する．<br>
+実行例
+```
+rye run python src/main.py -i='data/tnm_report.csv' -t='multi' -n=10 -b=8
+```
 
 ## コマンド一覧
 
