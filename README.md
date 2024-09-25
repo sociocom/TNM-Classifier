@@ -1,5 +1,4 @@
 # TNM-Classifier
-## 説明
 BERT で TNM 分類を行うプログラムです．[NTCIR-17 MedNLP-SC Radiology Report Subtask](https://repository.nii.ac.jp/records/2001285)で取り組んだコードを元にしたプログラムです．
 [rye](https://rye.astral.sh/guide/installation/)で python のパッケージを管理しています．
 
