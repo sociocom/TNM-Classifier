@@ -3,9 +3,9 @@ BERT で TNM 分類を行うプログラムです．[NTCIR-17 MedNLP-SC Radiolog
 [rye](https://rye.astral.sh/guide/installation/)で python のパッケージを管理しています．
 
 ## データの概要
-|  id  |  text  |  tnm  |
-| ---- | ---- | ---- |
-|  0  |  左上葉気管支は閉塞して造影  CT  で増強効果の乏しい 70mm  の腫瘤があります。肺癌と考えます。  |  430  |
+|  id  |  T  |  N  |  M  |  text  |
+| ---- | ---- | ---- | ---- | ---- |
+|  0  |  4  |  3  |  0  |  左上葉気管支は閉塞して造影  CT  で増強効果の乏しい 70mm  の腫瘤があります。肺癌と考えます。  |
 
 ## 使用方法
 Rye を導入した後，rye syncで python ライブラリをインストール<br>
